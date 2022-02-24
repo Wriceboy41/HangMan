@@ -2,8 +2,7 @@
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
 import svu.csc213.Dialog;
-import java.awt.*;
-import java.util.Locale;
+
 
 public class HangMan extends GraphicsProgram {
 
@@ -29,8 +28,10 @@ public class HangMan extends GraphicsProgram {
             String guess = Dialog.getString("what is your guess").toUpperCase();
 
 
-
-            if(guess.length() > 1 || String.valueOf() > 90 || String.copyValueOf() < 65){
+            if(guess.length() > 1 ){
+                Dialog.showMessage("invalid guess");
+            }
+            else if(guess.charAt(0) > 64 || guess.charAt(0) < 90){
                 Dialog.showMessage("invalid guess");
             }
 
