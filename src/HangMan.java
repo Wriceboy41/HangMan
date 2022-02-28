@@ -1,8 +1,5 @@
 
-import acm.graphics.GLabel;
-import acm.graphics.GLine;
-import acm.graphics.GOval;
-import acm.graphics.GRect;
+import acm.graphics.*;
 import acm.program.GraphicsProgram;
 import svu.csc213.Dialog;
 
@@ -19,7 +16,6 @@ public class HangMan extends GraphicsProgram {
 
     @Override
     public void init(){
-
         numberLetters = Word.length();
 
 
@@ -67,13 +63,20 @@ public class HangMan extends GraphicsProgram {
 
     private void checkWrong(GLabel GGuess){
         if (wrong){
-            add(GGuess,10, 10 * wrongGuesses +10 );
-
+            add(GGuess,10, 12 * wrongGuesses +15 );
         }
     }
     private void drawHangman(){
-        GOval head = new GOval(20,20);
-        GLine body = new GLine(head.getX(), head.getY(), head.getX(), head.getY()+100);
+        GRect head = new GRect(20,20);
+        GLine body = new GLine(getWidth()*.75 + head.getWidth()/2, getHeight()*.10+head.getHeight(), getWidth()*.75 + head.getWidth()/2, getHeight()*.10+head.getHeight()+100);
+        GLine rArm = new GLine(body.getX(), body.getY()+body.getHeight()/2, body.getX()+50, body.getY()+body.getHeight()*.75);
+        GLine lArm = new GLine(body.getX(), body.getY()+body.getHeight()/2, body.getX()-50, body.getY()+body.getHeight()*.75);
+        GLine rLeg = new GLine(body.getX(), body.getY()+body.getHeight(), body.getX()+50, body.getY()+body.getHeight()*1.75);
+        GLine lLeg = new GLine(body.getX(), body.getY()+body.getHeight(), body.getX()-50, body.getY()+body.getHeight()*1.75);
+        GLine rEyeLeftRight = new GLine(getWidth()*.75 +head.getWidth() *.75,getHeight()*.10 + head.getHeight()*.25, getWidth()*.75 + head.getWidth()*.75+3,getHeight()*.10+ head.getHeight()*.25+3 );
+        GLine rEyeRightLeft = new GLine(getWidth()*.75+head.getWidth()*.75+3,getHeight()*.10+head.getHeight()*.25, getWidth()*.75+head.getWidth()*.75,getHeight()*.10+head.getHeight()*.25+3 );
+        GLine lEyeLeftRight = new GLine(getWidth()*.75 +head.getWidth() *.25,getHeight()*.10 + head.getHeight()*.25, getWidth()*.75 + head.getWidth()*.25+3,getHeight()*.10+ head.getHeight()*.25+3 );
+        GLine lEyeRightLeft = new GLine(getWidth()*.75+head.getWidth()*.25+3,getHeight()*.10+head.getHeight()*.25, getWidth()*.75+head.getWidth()*.25,getHeight()*.10+head.getHeight()*.25+3 );
         switch (wrongGuesses){
             case 0:
                 break;
@@ -82,6 +85,26 @@ public class HangMan extends GraphicsProgram {
                 break;
             case 2:
                 add(body);
+                break;
+            case 3:
+                add(rArm);
+                break;
+            case 4:
+                add(lArm);
+                break;
+            case 5:
+                add(rLeg);
+                break;
+            case 6:
+                add(lLeg);
+                break;
+            case 7:
+                add(rEyeLeftRight);
+                add(rEyeRightLeft);
+                add(lEyeLeftRight);
+                add(lEyeRightLeft);
+                Dialog.showMessage("You Lost");
+                System.exit(1);
                 break;
         }
     }
