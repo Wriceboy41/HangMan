@@ -2,22 +2,27 @@
 import acm.graphics.*;
 import acm.program.GraphicsProgram;
 import svu.csc213.Dialog;
-
-import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 
 public class HangMan extends GraphicsProgram {
 
     private int numberLetters;
-    private String Word = "HELLO";
-    private int wrongGuesses = 0;
+    private Random rand = new Random();
+    private String[] wordList = {"hello", "bunny", "bus", "sublime", "metronomic", "raise", "elbow", "thumb", "straw", "magic", "print", "pencil", "mouse", "key", "merit", "mark", "cope", "pier", "beach", "sink", "whip", "reject" };
+    private String word;
+    private int wrongGuesses;
     private boolean wrong;
+    private int rightAnswers;
+
 
     @Override
     public void init(){
-        numberLetters = Word.length();
-
+        word = wordList[rand.nextInt(wordList.length)].toUpperCase();
+        numberLetters = word.length();
+        wrongGuesses = 0;
+        rightAnswers = 0;
 
         for (int i = 0; i < numberLetters; i++) {
             GRect letter = new GRect(25, 1);
@@ -47,17 +52,22 @@ public class HangMan extends GraphicsProgram {
     private void checkRight( String guess){
         int right = 0;
         wrong = false;
-        for (int i = 0; i < Word.length(); i++) {
-            if (guess.charAt(0) == Word.charAt(i)) {
+        for (int i = 0; i < word.length(); i++) {
+            if (guess.charAt(0) == word.charAt(i)) {
                 GLabel GGuess = new GLabel(guess);
                 add(GGuess, i * 50 + 85, getHeight() / 2 - 3);
                 right++;
+                rightAnswers++;
             }
 
         }
         if(right == 0){
             wrongGuesses++;
             wrong = true;
+        }
+
+        if(rightAnswers == word.length()){
+            win();
         }
     }
 
@@ -66,6 +76,7 @@ public class HangMan extends GraphicsProgram {
             add(GGuess,10, 12 * wrongGuesses +15 );
         }
     }
+
     private void drawHangman(){
         GRect head = new GRect(20,20);
         GLine body = new GLine(getWidth()*.75 + head.getWidth()/2, getHeight()*.10+head.getHeight(), getWidth()*.75 + head.getWidth()/2, getHeight()*.10+head.getHeight()+100);
@@ -107,6 +118,16 @@ public class HangMan extends GraphicsProgram {
                 System.exit(1);
                 break;
         }
+    }
+
+    private void win(){
+
+        Dialog.showMessage("You won");
+        GRect g = new GRect(10000000, 10000);
+        add(g, 0, -3);
+        g.setFillColor(Color.white);
+        g.setFilled(true);
+        init();
     }
 
 
